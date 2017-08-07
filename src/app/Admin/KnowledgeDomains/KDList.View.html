@@ -1,0 +1,47 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <h3>Knowledge Domains
+            <a title="Add a mew Knowledge Domain" [routerLink]="['/Admin/KnowledgeDomain', 'New']"><span class="glyphicon glyphicon-plus"></span></a>
+
+        </h3>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row jtfj_listTableHeaderRow">
+
+        <div class="col-xs-4">
+            Title
+        </div>
+        <div class="col-xs-7">
+            Description
+        </div>
+        <div class="col-xs-1">
+            Actions
+        </div>
+
+    </div>
+
+    <div class="row jtfj_listDataRow" ng-class="{'jtfj_listOddTableRow' : $index % 2 == 0}" *ngFor="let aKD of AllKnowledgeDomains">
+
+        <div class="col-xs-4">
+            {{aKD.Title}}
+        </div>
+        <div class="col-xs-7">
+            {{aKD.Description}}
+        </div>
+        <div class="col-xs-1">
+            <a [routerLink]="['/Admin/KnowledgeDomain', aKD.UniqueID]"><span class="glyphicon glyphicon-edit"></span></a>
+        </div>
+
+    </div>
+</div>
+
+<!--<p>
+    <a href="#/admin/knowledgedomain/123">View an individual knowledge domain.</a>
+</p>
+<p>
+    <a href="javascript:void(0);" ng-click="vm.Ping()">Ping the service.</a>
+</p>
+<h5>All Knowledge Domains</h5>
+<pre>{{vm.AllKnowledgeDomains | json}}</pre>-->

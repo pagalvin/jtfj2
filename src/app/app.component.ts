@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+  selector: 'just-the-facts-jack',
+  templateUrl: './JustTheFactsJack.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {

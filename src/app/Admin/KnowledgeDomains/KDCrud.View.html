@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h3 *ngIf="IsNewItem">New Knowledge Domain (ng2)</h3>
+        <h3 *ngIf="! IsNewItem">Edit an Existing Knowledge Domain (ng2)</h3>
+    </div>
+</div>
+
+<form name="kdForm">
+
+    <div class="form-group">
+        <label for="kdTitle">Title</label>
+        <input type="text" class="form-control" id="kdTitle" [(ngModel)]="InputTitle" name="inputTitle" />
+        <small id="kdTitleHelp" class="form-text text-muted">Enter the title of of this knowledge domain.</small>
+    </div>
+
+    <div class="form-group">
+        <label for="kdDescription">Description</label>
+        <textarea class="form-control" id="kdDescription" [(ngModel)]="InputDescription" name="inputDescription"></textarea>
+        <small id="kdTitleHelp" class="form-text text-muted">Enter the description of this knowledge domain. The description is for administrative purposes only.</small>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="handleSave()">Save</button>
+    <button *ngIf="! IsNewItem" type="button" class="btn btn-warning" (click)="handleDelete()">Delete</button>
+    <button type="button" class="btn btn-warning" (click)="handleCancel()">Cancel</button>
+
+</form>
+
