@@ -9,8 +9,9 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostsService } from './posts/posts.service';
-import { KnowledgeDomainsListComponent} from './Admin/KnowledgeDomains/KDList.Component';
-import { KnowledgeDomainsService} from './Admin/KnowledgeDomains/KD.Service';
+import { KnowledgeDomainsListComponent } from './Admin/KnowledgeDomains/KDList.Component';
+import { KnowledgeDomainsService } from './Admin/KnowledgeDomains/KD.Service';
+import { KnowledgeDomainsCrudComponent } from './Admin/KnowledgeDomains/KDCrud.Component';
 import { RecordIDsService } from './Framework/Data Services/RecordIDsService';
 import { UserService } from './Framework/Users/UserService';
 import { ConsoleLog } from './Framework/Logging/ConsoleLogService';
@@ -20,7 +21,12 @@ const ROUTES = [
   { 
     path: 'Admin/KnowledgeDomains', 
     component: KnowledgeDomainsListComponent
-  }
+  },
+  { 
+    path: 'Admin/KnowledgeDomain/:domainID', 
+    component: KnowledgeDomainsCrudComponent
+  },
+
   // {
   //   path: '**',
   //   redirectTo: "/homepage",
@@ -40,7 +46,8 @@ const ROUTES = [
   declarations: [
     AppComponent,
     PostsComponent,
-    KnowledgeDomainsListComponent
+    KnowledgeDomainsListComponent,
+    KnowledgeDomainsCrudComponent
   ],
   imports: [
     BrowserModule,
