@@ -7,6 +7,9 @@
 /dist
 /tmp
 
+# Font Awesome
+*font-awesome*
+
 # dependencies
 /node_modules
 
