@@ -1,5 +1,5 @@
-﻿import { Functionals } from '../../Framework/Functionals';
-import { RecordIDsService } from "../../DataServices/RecordIDsService";
+﻿import { Functionals } from '../../Framework/Util/Functionals';
+import { RecordIDsService } from "../../Framework/Data Services/RecordIDsService";
 import { IFactItem, FactItem } from "./FactModel";
 import { ConsoleLog } from '../../Framework/Logging/ConsoleLogService';
 import { AbstractAngularService } from '../../Framework/Data Structures/AbstractAngularService'

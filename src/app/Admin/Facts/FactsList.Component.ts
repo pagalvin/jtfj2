@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FactItem } from "./FactModel";
 import { FactsService } from "../Facts/Facts.Service";
-import { Functionals as F } from "../../Framework/Functionals";
+import { Functionals as F } from "../../Framework/Util/Functionals";
 import { ConsoleLog } from "../../Framework/Logging/ConsoleLogService";
 import { KnowledgeDomainItem } from "../KnowledgeDomains/KDItem";
 import { KnowledgeDomainsService} from "../KnowledgeDomains/KD.Service";
@@ -11,7 +11,7 @@ import * as CustomErrors from "../../Framework/ErrorHandling/ErrorsService";
 
 @Component({
     selector: 'jtfj-facts-list',
-    templateUrl: `app/Admin/Facts/FactsList.View.html`,
+    templateUrl: `./FactsList.View.html`,
 })
 export class FactsListComponent implements OnInit {
 
@@ -30,16 +30,28 @@ export class FactsListComponent implements OnInit {
         this.factsService.loadAllFacts();
     }
 
-    public getFriendlyKDDisplay(forDomains: KnowledgeDomainItem[]): string {
+    public getFriendlyKDDisplay(forFact: FactItem): string {
 
-        try {
-            const result = F.stringArrayToCdl(F.extractFieldsFromCollection<string[]>(forDomains, "Title"));
-            this.clog.debug(`FactsListComponent: getFriendlyKDDisplay: got a view of knowledge domains:`, result);
-            return result;
-        }
-        catch (ex) {
-            throw (<CustomErrors.IError>ex)._msg;
-        }
+        return "test";
+
+        // const forDomains: KnowledgeDomainItem[] = forFact.KnowledgeDomains;
+
+        // if (! forDomains) { 
+        //     return "error"; 
+        // }
+
+        // this.clog.debug(`FactsList.component: getFriendlyKDDisplay: entering, forDomains:`, forDomains);
+        
+        // try {
+        //     const result = F.stringArrayToCdl(F.extractFieldsFromCollection<string[]>(forDomains, "Title"));
+        //     // this.clog.debug(`FactsListComponent: getFriendlyKDDisplay: got a view of knowledge domains:`, result);
+        //     return result;
+        // }
+        // catch (ex) {
+        //     this.clog.error("FactsList.component: getFriendlyKDDisplay: failed to get domains, details:", ex);
+        //     return "error";
+        //     // throw (<CustomErrors.IError>ex)._msg;
+        // }
     }
 
 }

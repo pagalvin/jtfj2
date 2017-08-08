@@ -9,8 +9,10 @@
             <a [routerLink]="['/Admin/Fact', 'New']">New Fact</a>
 
 
+            <div class="container">
+
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3>
             Facts
             <a title="Add a mew fact" [routerLink]="['/Admin/Fact', 'New']"><span class="glyphicon glyphicon-plus"></span></a>
@@ -23,38 +25,43 @@
 <div class="container">
     <div class="row jtfj_listTableHeaderRow">
 
-        <div class="col-xs-2">
+        <div class="col-2">
             Domains
         </div>
-        <div class="col-xs-3">
+        <div class="col-3">
             Fact Statement
         </div>
-        <div class="col-xs-6">
+        <div class="col-6">
             Description
         </div>
-        <div class="col-xs-1">
+        <div class="col-1">
             Actions
         </div>
 
     </div>
 
-    <div class="row jtfj_listDataRow" [class]="{'jtfj_listOddTableRow' : $index % 2 == 0}" *ngFor="let aFact of AllFacts" >
+    <div class="row jtfj_listDataRow"  xclass="{'jtfj_listOddTableRow' : $index % 2 == 0}"  *ngFor="let aFact of AllFacts" >
 
-        <div class="col-xs-2">
-            {{getFriendlyKDDisplay(aFact.KnowledgeDomains)}}
+        <div class="col-2">
+            {{getFriendlyKDDisplay(aFact)}}
         </div>
-        <div class="col-xs-3">
+        <div class="col-3">
             {{aFact.FactStatement}}
         </div>
-        <div class="col-xs-6">
+        <div class="col-6">
             {{aFact.Description}}
         </div>
-        <div class="col-xs-1">
+        <div class="col-1">
             <!--<a href="#/Admin/Fact/{{aFact.UniqueID}}"><span class="glyphicon glyphicon-edit"></span></a>-->
-            ID: {{aFact.UniqueID}}
-            <a [routerLink]="['/Admin/Fact', aFact.UniqueID]"><span class="glyphicon glyphicon-edit"></span></a>
+            ID: <span *ngIf="aFact && aFact.UniqueID">{{aFact.UniqueID}}</span>
+            <a *ngIf="aFact && aFact.UniqueID" [routerLink]="['/Admin/Fact', aFact.UniqueID]">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </a>
         </div>
 
+        <div class="col-12">
+<pre>{{aFact | json}}</pre>
+            </div>
     </div>
 
 </div>
@@ -71,3 +78,4 @@
 <h5>All Facts</h5>
 <pre>{{AllFacts | json}}</pre>
 
+</div>
