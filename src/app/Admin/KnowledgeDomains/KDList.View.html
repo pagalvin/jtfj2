@@ -1,40 +1,49 @@
-﻿<div class="row">
-    <div class="col-xs-12">
-        <h3>Knowledge Domains
-            <a title="Add a mew Knowledge Domain" [routerLink]="['/Admin/KnowledgeDomain', 'New']"><span class="glyphicon glyphicon-plus"></span></a>
+﻿<div class="container">
 
-        </h3>
-    </div>
-</div>
+    <div class="row">
+        <div class="col-12">
+            <h3>Knowledge Domains
+                <a title="Add a mew Knowledge Domain" [routerLink]="['/Admin/KnowledgeDomain', 'New']">
+                    <!-- <span class="glyphicon glyphicon-plus"></span> -->
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                </a>
 
-<div class="container">
-    <div class="row jtfj_listTableHeaderRow">
-
-        <div class="col-xs-4">
-            Title
+            </h3>
         </div>
-        <div class="col-xs-7">
-            Description
-        </div>
-        <div class="col-xs-1">
-            Actions
-        </div>
-
     </div>
 
-    <div class="row jtfj_listDataRow" ng-class="{'jtfj_listOddTableRow' : $index % 2 == 0}" *ngFor="let aKD of AllKnowledgeDomains">
+    <div class="container">
+        <div class="row jtfj_listTableHeaderRow">
 
-        <div class="col-xs-4">
-            {{aKD.Title}}
-        </div>
-        <div class="col-xs-7">
-            {{aKD.Description}}
-        </div>
-        <div class="col-xs-1">
-            <a [routerLink]="['/Admin/KnowledgeDomain', aKD.UniqueID]"><span class="glyphicon glyphicon-edit"></span></a>
+            <div class="col-4">
+                Title
+            </div>
+            <div class="col-7">
+                Description
+            </div>
+            <div class="col-1">
+                Actions
+            </div>
+
         </div>
 
+        <div class="row jtfj_listDataRow" ng-class="{'jtfj_listOddTableRow' : $index % 2 == 0}" *ngFor="let aKD of AllKnowledgeDomains">
+
+            <div class="col-4">
+                {{aKD.Title}}
+            </div>
+            <div class="col-7">
+                {{aKD.Description}}
+            </div>
+            <div class="col-1">
+                <a [routerLink]="['/Admin/KnowledgeDomain', aKD.UniqueID]">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+            </div>
+
+        </div>
     </div>
+
 </div>
 
 <!--<p>

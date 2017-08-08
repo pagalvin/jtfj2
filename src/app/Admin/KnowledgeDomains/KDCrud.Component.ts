@@ -11,7 +11,7 @@ import { KnowledgeDomainItem } from './KDItem';
 import { ConsoleLog } from '../../Framework/Logging/ConsoleLogService';
 
 @Component({
-    templateUrl: 'app/Admin/KnowledgeDomains/KDCrud.View.html',
+    templateUrl: 'KDCrud.View.html',
     selector: 'jtfj-kd-crud'
 })
 export class KnowledgeDomainsCrudComponent extends AbstractCrudComponent implements OnInit, OnDestroy {
