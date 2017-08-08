@@ -1,5 +1,5 @@
 
-import { Functionals } from '../../Framework/Util/Functionals';
+import { Functionals } from '../../Framework/Util/Functionals'; 
 import { RecordIDsService } from "../../Framework/Data Services/RecordIDsService";
 import { KnowledgeDomainItem } from "./KDItem";
 import { ConsoleLog } from '../../Framework/Logging/ConsoleLogService';
