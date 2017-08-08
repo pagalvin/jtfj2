@@ -1,0 +1,73 @@
+﻿<h3>List facts!</h3>
+
+<p>
+    <a href="#/Admin/Fact/123">View an individual fact.</a>
+</p>
+<p>
+    <a href="javascript:void(0);" ng-click="ping()">Ping the service.</a>
+</p>
+            <a [routerLink]="['/Admin/Fact', 'New']">New Fact</a>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3>
+            Facts
+            <a title="Add a mew fact" [routerLink]="['/Admin/Fact', 'New']"><span class="glyphicon glyphicon-plus"></span></a>
+             <!--<span class="glyphicon glyphicon-plus" onclick="window.location.href = '#/Admin/Fact/New'" title="Add a new Fact"></span>-->
+        </h3>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="row jtfj_listTableHeaderRow">
+
+        <div class="col-xs-2">
+            Domains
+        </div>
+        <div class="col-xs-3">
+            Fact Statement
+        </div>
+        <div class="col-xs-6">
+            Description
+        </div>
+        <div class="col-xs-1">
+            Actions
+        </div>
+
+    </div>
+
+    <div class="row jtfj_listDataRow" [class]="{'jtfj_listOddTableRow' : $index % 2 == 0}" *ngFor="let aFact of AllFacts" >
+
+        <div class="col-xs-2">
+            {{getFriendlyKDDisplay(aFact.KnowledgeDomains)}}
+        </div>
+        <div class="col-xs-3">
+            {{aFact.FactStatement}}
+        </div>
+        <div class="col-xs-6">
+            {{aFact.Description}}
+        </div>
+        <div class="col-xs-1">
+            <!--<a href="#/Admin/Fact/{{aFact.UniqueID}}"><span class="glyphicon glyphicon-edit"></span></a>-->
+            ID: {{aFact.UniqueID}}
+            <a [routerLink]="['/Admin/Fact', aFact.UniqueID]"><span class="glyphicon glyphicon-edit"></span></a>
+        </div>
+
+    </div>
+
+</div>
+
+<!--<p>
+    <a href="#/admin/knowledgedomain/123">View an individual knowledge domain.</a>
+</p>
+<p>
+    <a href="javascript:void(0);" ng-click="vm.Ping()">Ping the service.</a>
+</p>
+<h5>All Knowledge Domains</h5>
+<pre>{{vm.AllKnowledgeDomains | json}}</pre>-->
+
+<h5>All Facts</h5>
+<pre>{{AllFacts | json}}</pre>
+
