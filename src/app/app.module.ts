@@ -1,3 +1,4 @@
+import { componentModuleUrl } from '@angular/compiler';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,32 +22,25 @@ import { QuizTemplatesListComponent } from './Admin/QuizTemplates/QTList.Compone
 import { QuizTemplatesService } from './Admin/QuizTemplates/QT.Service';
 import { QTCrudComponent } from './Admin/QuizTemplates/QTCrud.Component';
 
+import { QICrudComponent } from './EndUser/QuizInstances/QI.Crud.Component';
+import { QIService } from './EndUser/QuizInstances/QI.Service';
 
 import { RecordIDsService } from './Framework/Data Services/RecordIDsService';
 import { UserService } from './Framework/Users/UserService';
 import { ConsoleLog } from './Framework/Logging/ConsoleLogService';
 
 import { ErrorsService } from "./Framework/ErrorHandling/ErrorsService";
+import { QuizSelectorComponent } from './EndUser/quiz-selector/quiz-selector.component';
 
 const ROUTES = [
-  { 
-    path: 'Admin/KnowledgeDomains', 
-    component: KnowledgeDomainsListComponent
-  },
-  { 
-    path: 'Admin/KnowledgeDomain/:domainID', 
-    component: KnowledgeDomainsCrudComponent
-  },
-  { 
-    path: 'Admin/Facts', 
-    component: FactsListComponent
-  },
-  { 
-    path: 'Admin/Fact/:factID', 
-    component: FactCrudComponent
-  },
+  { path: 'Admin/KnowledgeDomains', component: KnowledgeDomainsListComponent},
+  { path: 'Admin/KnowledgeDomain/:domainID', component: KnowledgeDomainsCrudComponent},
+  { path: 'Admin/Facts', component: FactsListComponent },
+  { path: 'Admin/Fact/:factID', component: FactCrudComponent },
   { path: 'Admin/QuizTemplates', component: QuizTemplatesListComponent},
-  { path: 'Admin/QuizTemplate/:quizTemplateID', component: QTCrudComponent}
+  { path: 'Admin/QuizTemplate/:quizTemplateID', component: QTCrudComponent},
+  { path: 'TakeAQuiz/:quizTemplateID', component: QICrudComponent},
+  { path: '', component: QuizSelectorComponent }
 
 ];
 
@@ -59,7 +53,9 @@ const ROUTES = [
     FactCrudComponent,
     FactsListComponent,
     QTCrudComponent,
-    QuizTemplatesListComponent
+    QuizTemplatesListComponent,
+    QICrudComponent,
+    QuizSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +71,8 @@ const ROUTES = [
     UserService, 
     ConsoleLog,
     ErrorsService,
-    QuizTemplatesService
+    QuizTemplatesService,
+    QIService
   ],
   bootstrap: [AppComponent]
 })
