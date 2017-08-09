@@ -5,7 +5,7 @@ import { KnowledgeDomainsService } from "./KD.Service";
 
 @Component({
     selector: 'jtfj-knowledge-domains',
-    templateUrl: `app/Admin/KnowledgeDomains/KDList.View.html`,
+    templateUrl: `./KDList.View.html`,
 })
 export class KnowledgeDomainsListComponent implements OnInit {
 
