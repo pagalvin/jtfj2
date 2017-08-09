@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+// import { Component } from '@angular/core';
 
-@Component({
-    selector: 'jtfj-global-nav',
-    templateUrl: `app/Menus/GlobalNav/GlobalNavView.html`,
+// @Component({
+//     selector: 'jtfj-global-nav',
+//     templateUrl: `app/Menus/GlobalNav/GlobalNavView.html`,
     
-})
-export class GlobalNavComponent {
+// })
+// export class GlobalNavComponent {
 
-    constructor() {
+//     constructor() {
 
-        console.debug(`GlobalNavComponent: ctor: Entering.`);
+//         console.debug(`GlobalNavComponent: ctor: Entering.`);
 
-    } // constructor
-}
+//     } // constructor
+// }
