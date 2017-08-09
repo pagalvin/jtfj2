@@ -36,9 +36,16 @@ export class KnowledgeDomainsService extends AbstractAngularService {
 
     public async getKnowledgeDomainsByTitles(titles: string[]): Promise<KnowledgeDomainItem[]> {
 
+        this.clog.debug(`KD.Service: getKnowledgeDomainsByTitles: Entering, looking up titles:`, titles);
+
         return new Promise<KnowledgeDomainItem[]>(async (resolve, reject) => {
 
+            this.clog.debug(`KD.Service: getKnowledgeDomainsByTitles: awaiting KD Load promise.`);
+            
             await this.kdLoadPromise;
+
+            this.clog.debug(`KD.Service: getKnowledgeDomainsByTitles: all knowledge domains:`, this._allKnowledgeDomains);
+            
 
             const result = titles.reduce((prev: KnowledgeDomainItem[], curr: string) => {
 
@@ -49,6 +56,8 @@ export class KnowledgeDomainsService extends AbstractAngularService {
                 return prev;
             }, []);
 
+            this.clog.debug(`KD.Service: getKnowledgeDomainsByTitles: resolving with domains:`, result);
+            
             resolve(result);
         });
     }
