@@ -1,0 +1,103 @@
+﻿<div class="container">
+    <h1>Quiz Template Crud View</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <h3 *ngIf="IsNewItem">New QuizTemplate</h3>
+            <h3 *ngIf="!IsNewItem">Edit an Existing QuizTemplate</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+    <form name="QuizTemplateForm">
+
+        <!-- QuizTemplate Statement -->
+        <div class="form-group">
+            <label for="QuizTemplateTitle">QuizTemplate Statement</label>
+            <input type="text" class="form-control" id="QuizTemplateTitle" name="InputQuizTemplateTitle" [(ngModel)]="InputQuizTemplateTitle"/>
+            <small id="QuizTemplateTitleHelp" class="form-text text-muted">This anchors the questions, correct and incorrect answers..</small>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label for="QuizTemplateDescription">Description</label>
+            <textarea class="form-control" id="QuizTemplateDescription" name="InputDescription" [(ngModel)]="InputDescription"></textarea>
+            <small id="QuizTemplateTitleHelp" class="form-text text-muted">
+                Enter the description of this QuizTemplate. The description is shown to end users describing the quiz.
+            </small>
+        </div>
+
+        <!-- Knowledge Domains -->
+        <!--<div class="form-group">
+        <label for="QuizTemplateKnowledgeDomains">Knowledge Domains</label>
+        <ui-select id="QuizTemplateKnowledgeDomains" multiple ng-ngModel="vm.InputKnowledgeDomains" close-on-select="false" class="form-control" title="Choose a domain">
+            <ui-select-match placeholder="Select knowledge domains...">{{$item.Title}}</ui-select-match>
+            <ui-select-choices repeat="aKnowledgeDomain in vm.AllKnowledgeDomains | filter:$select.search">
+                <b>{{aKnowledgeDomain.Title}}</b>
+                <br />
+                <p>{{aKnowledgeDomain.Description}}</p>
+                <hr />
+            </ui-select-choices>
+        </ui-select>
+        </div>-->
+
+        <!-- Facts -->
+        <div class="form-group xform-inline xform-horizontal">
+
+            <div class="row">
+                <div class="col-12">
+                    <label>Select Facts</label>
+                </div>
+                <div class="col-12">
+                    <label>Show:</label>
+                    <input type="checkbox" name="onlySelectedFacts" 
+                        id="jtfj_onlySelectedFacts" (click)="handleFilterOnlySelectedFacts()" 
+                        [(ngModel)]="ActiveFilters.OnlySelectedFacts"/>
+                    
+                    <label for="jtfj_onlySelectedFacts">
+                        Only selected facts
+                    </label> &nbsp;&nbsp;
+                    <input type="checkbox" name="onlyUnselectedFacts" id="jtfj_onlyUnselectedFacts" (click)="handleFilterOnlyUnselectedFacts()"
+                        [(ngModel)]="ActiveFilters.OnlyUnselectedFacts" /><label for="jtfj_onlyUnselectedFacts">Only unselected facts</label>&nbsp;&nbsp;
+                    <input type="checkbox" name="allFacts" id="jtfj_allFacts" (click)="handleFilterAllFacts()" [(ngModel)]="ActiveFilters.AllFacts"/>
+                    <label for="jtfj_allFacts">All facts</label>&nbsp;&nbsp;
+                    <label for="jtfj_searchForFacts">Search:</label><input type="text" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row jtfj_listTableHeaderRow">
+                <div class="col-4">Title</div>
+                <div class="col-6">Description</div>
+                <div class="col-2">Included?</div>
+            </div>
+
+            <div class="row" *ngFor="let aFact of AllViewFacts">
+                <div class="col-4">{{aFact.FactStatement}}</div>
+                <div class="col-6">{{aFact.Description}}</div>
+                <div class="col-2" *ngIf="isFactSelected(aFact)">
+                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="handleDeselectFact(aFact)"></i>
+                </div>
+                <div class="col-2" *ngIf="! isFactSelected(aFact)">
+                    <i class="fa fa-square-o" (click)="handleSelectFact(aFact)"></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <pre>{{AllViewFacts | json}}</pre>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+        </div></div>
+    <div class="row">
+        <div class="col-12">
+            <button xng-disabled="! QuizTemplateForm.$dirty" type="button" class="btn btn-primary" (click)="handleSave()">Save</button>
+            <button ng-show="! IsNewItem" type="button" class="btn btn-warning" (click)="handleDelete()">Delete</button>
+            <button type="button" class="btn btn-warning" (click)="handleCancel(false)">Cancel</button>
+        </div>
+    </div>
+</div>

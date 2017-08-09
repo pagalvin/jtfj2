@@ -1,0 +1,54 @@
+﻿<div class="container">
+    <h3>Quiz Templates</h3>
+
+
+    <div class="row">
+        <div class="col-12">
+            <h3>
+                Quiz Templates
+                <a title="Add a mew Quizk Template" [routerLink]="['/Admin/QuizTemplate', 'New']"><span class="glyphicon glyphicon-plus"></span></a>
+            </h3>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row jtfj_listTableHeaderRow">
+
+            <div class="col-2">
+                Domains
+            </div>
+            <div class="col-3">
+                Title
+            </div>
+            <div class="col-6">
+                Description
+            </div>
+            <div class="col-1">
+                Actions
+            </div>
+
+        </div>
+
+        <div class="row jtfj_listDataRow" xclass="{'jtfj_listOddTableRow' : $index % 2 == 0}" *ngFor="let aQuizTemplate of AllQuizTemplates">
+
+            <div class="col-2">
+                {{GetFriendlyKDDisplay(aQuizTemplate.KnowledgeDomains)}}
+            </div>
+            <div class="col-3">
+                {{aQuizTemplate.Title}}
+            </div>
+            <div class="col-6">
+                {{aQuizTemplate.Description}}
+            </div>
+            <div class="col-1">
+                <a [routerLink]="['/Admin/QuizTemplate', aQuizTemplate.UniqueID]">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
