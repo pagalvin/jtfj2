@@ -3,6 +3,9 @@
 # TypeScript Source
 /src/app/**/*.js
 
+# Auto-generated compdoc documentation
+/documentation
+
 # compiled output
 /dist
 /tmp
