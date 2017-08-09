@@ -105,7 +105,7 @@ export class Functionals {
     /**
      * Takes an array and returns a new array that is a shuffled / randomized version of the source.
      * Inspired by: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array (Durstenfeld shuffle)
-     * @param source Source array. It is not modifed by this operation.
+     * @param source Source array. It is not modified by this operation.
      */
     static getShuffledArray<T>(source: T[]): T[] {
 
@@ -123,7 +123,7 @@ export class Functionals {
 
     /**
      * For a given collection (array of objects), it will return an array of values for a specific column.
-     * For example: "Knowlege Domain" is a complex object and you have an array of them. You want to extract all of
+     * For example: "Knowledge Domain" is a complex object and you have an array of them. You want to extract all of
      * the columns labeled "Title". You would do: result = extractFieldsFromCollection<string[]>(myKnowledgeDomains, "Title");
      * @param collection: The array from which you wish to extract data.
      * @param forColumn: The name of the column as a string.

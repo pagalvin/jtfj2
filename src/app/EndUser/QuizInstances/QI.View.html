@@ -1,0 +1,44 @@
+﻿<h3>Take a Quiz! (quiz instance html)</h3>
+
+<a href="javascript:void(0);" (click)="Ping()">Ping the service</a>
+
+<a (click)="Ping()">ping</a>
+
+<!-- <div>
+    All quiz questions:
+    <pre>{{AllQuizQuestions | json}}</pre>
+    Current quiz qeustion:
+    <pre>{{CurrentQuizQuestion}}</pre>
+</div> -->
+
+<div *ngIf="CurrentQuizQuestion" class="container">
+
+    <div class="row">
+        <div class="col-3">
+            <a ng-href="javascript:void(0)" (click)="HandlePreviousQuestion()">Previous Question</a>
+        </div>
+        <div class="col-6">
+            <h4>Question {{CurrentQuizQuestionIndex + 1}} of {{AllQuizQuestions.length}}: "{{CurrentQuizQuestion.Question}}"</h4>
+
+            <div class="row">
+                <div class="col-12">
+                    Select the best answer:
+                </div>
+                <div class="col-12">
+                     <div class="radio" *ngFor="let aPossibleResponse of CurrentQuizQuestion.AllChoices">
+                        <label>
+                        <input type="radio" name="optradio" ([model])="aPossibleResponse.WasSelectedByUser"/>
+                            {{aPossibleResponse.Response}}
+                    </label>
+                    </div> 
+                </div>
+            </div>
+
+            <pre>{{CurrentQuizQuestion | json}}</pre>
+            
+        </div>
+        <div class="col-3">
+            <a ng-href="javascript:void(0)" (click)="HandleNextQuestion()">Next Question</a>
+        </div>
+    </div>
+</div>
