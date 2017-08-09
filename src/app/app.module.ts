@@ -17,6 +17,11 @@ import { FactsService } from './Admin/Facts/Facts.Service';
 import { FactsListComponent } from './Admin/Facts/FactsList.Component';
 import { FactCrudComponent } from './Admin/Facts/FactCrud.Component';
 
+import { QuizTemplatesListComponent } from './Admin/QuizTemplates/QTList.Component';
+import { QuizTemplatesService } from './Admin/QuizTemplates/QT.Service';
+import { QTCrudComponent } from './Admin/QuizTemplates/QTCrud.Component';
+
+
 import { RecordIDsService } from './Framework/Data Services/RecordIDsService';
 import { UserService } from './Framework/Users/UserService';
 import { ConsoleLog } from './Framework/Logging/ConsoleLogService';
@@ -39,7 +44,10 @@ const ROUTES = [
   { 
     path: 'Admin/Fact/:factID', 
     component: FactCrudComponent
-  }
+  },
+  { path: 'Admin/QuizTemplates', component: QuizTemplatesListComponent},
+  { path: 'Admin/QuizTemplate/:quizTemplateID', component: QTCrudComponent}
+
 ];
 
 @NgModule({
@@ -49,7 +57,9 @@ const ROUTES = [
     KnowledgeDomainsListComponent,
     KnowledgeDomainsCrudComponent,
     FactCrudComponent,
-    FactsListComponent
+    FactsListComponent,
+    QTCrudComponent,
+    QuizTemplatesListComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +74,8 @@ const ROUTES = [
     RecordIDsService, 
     UserService, 
     ConsoleLog,
-    ErrorsService
+    ErrorsService,
+    QuizTemplatesService
   ],
   bootstrap: [AppComponent]
 })

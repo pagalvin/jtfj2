@@ -93,10 +93,15 @@ export class FactCrudComponent implements OnInit, OnDestroy {
             const theFact = await this.factsService.getFactByUniqueID(forFactID);
             this.InputFactStatement = theFact.FactStatement;
             this.InputDescription = theFact.Description;
-            this.InputKnowledgeDomains = theFact.KnowledgeDomains.map((aKD) => { return aKD.Title; });;
             this.AllQuestions = [].concat(theFact.Questions);
             this.AllWrongAnswers = [].concat(theFact.WrongAnswers);
             this.AllCorrectAnswers = [].concat(theFact.CorrectAnswers);
+
+            // This next little assignment implies an error and in production would be.
+            // However, during dev, it's very possible to encounter it so ... putting in a pin it for now.
+            // TODO: Fix this.
+            this.InputKnowledgeDomains = theFact.KnowledgeDomains.map((aKD) => { return aKD ? aKD.Title : "" });;
+            
         }
         catch (errorDetails) {
             this.clog.error(`FactCrudController: _intializeExistingFact: Failed to load the fact, error details:`, errorDetails);
@@ -196,6 +201,7 @@ export class FactCrudComponent implements OnInit, OnDestroy {
         factToSave.FactStatement = this.InputFactStatement;
         factToSave.Description = this.InputDescription;
         // factToSave.KnowledgeDomains = this.InputKnowledgeDomains;
+
         factToSave.KnowledgeDomains = await this.kdService.getKnowledgeDomainsByTitles(this.InputKnowledgeDomains);
         factToSave.Questions = this.AllQuestions.filter((anItem) => { return !anItem._isDeleted; });
         factToSave.WrongAnswers = this.AllWrongAnswers.filter((anItem) => { return !anItem._isDeleted; });
@@ -204,6 +210,8 @@ export class FactCrudComponent implements OnInit, OnDestroy {
         if (!this.isNewFactItem) {
             factToSave.UniqueID = this.existingFactID;
         }
+
+        this.clog.debug(`FactCrud.Component: handleSave: saving a fact`, factToSave);
 
         await this.factsService.saveFact(factToSave);
 

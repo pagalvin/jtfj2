@@ -1,5 +1,4 @@
 ﻿<style>
-
     .jtfj_itemMarkedForDeletion {
         border: dashed 2px red;
     }
@@ -18,161 +17,174 @@
         vertical-align: middle;
         float: none;
     }
-
 </style>
 
 <h1>Fact Crud View</h1>
 
 <div class="container">
 
-<form name="factCrudForm">
+    <form name="factCrudForm">
 
-    <div class="row">
-        <div class="col-12">
-            <h3 *ngIf="IsNewItem">New Fact</h3>
-            <h3 *ngIf="!IsNewItem">Edit an Existing Fact</h3>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            To do:
-            <ul>
-                <li>Provide a method where we can say "go here for more info" and use amazon links</li>
-                <li>Explicit question types - true/false, multiple choice, fitb, sequencing</li>
-            </ul>
-        </div>
-    </div>
-    <form name="factForm">
-
-        <div class="form-group">
-            <label for="factStatement">Fact Statement</label>
-            <input type="text" class="form-control" id="factStatement" [(ngModel)]="InputFactStatement" name="inputFactStatement"/>
-            <small id="factStatementHelp" class="form-text text-muted">This anchors the questions, correct and incorrect answers..</small>
+        <div class="row">
+            <div class="col-12">
+                <h3 *ngIf="IsNewItem">New Fact</h3>
+                <h3 *ngIf="!IsNewItem">Edit an Existing Fact</h3>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="factDescription">Description</label>
-            <textarea class="form-control" id="factDescription" [(ngModel)]="InputDescription" name="inputDescription"></textarea>
-            <small id="factStatementHelp" class="form-text text-muted">Enter the description of this fact. The description is for administrative purposes only.</small>
+        <div class="row">
+            <div class="col-12">
+                To do:
+                <ul>
+                    <li>Provide a method where we can say "go here for more info" and use amazon links</li>
+                    <li>Explicit question types - true/false, multiple choice, fitb, sequencing</li>
+                </ul>
+            </div>
         </div>
+        <form name="factForm">
 
-        <div class="form-group">
-            <label>Knowledge Domains</label><br/>
-            <span *ngFor="let aKD of AllKnowledgeDomains">
+            <div class="form-group">
+                <label for="factStatement">Fact Statement</label>
+                <input type="text" class="form-control" id="factStatement" [(ngModel)]="InputFactStatement" name="inputFactStatement" />
+                <small id="factStatementHelp" class="form-text text-muted">This anchors the questions, correct and incorrect answers..</small>
+            </div>
+
+            <div class="form-group">
+                <label for="factDescription">Description</label>
+                <textarea class="form-control" id="factDescription" [(ngModel)]="InputDescription" name="inputDescription"></textarea>
+                <small id="factStatementHelp" class="form-text text-muted">Enter the description of this fact. The description is for administrative purposes only.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Knowledge Domains</label><br/>
+                <span *ngFor="let aKD of AllKnowledgeDomains">
                 <input id="kd_{{aKD.InternalID}}" type="checkbox" value="{{aKD.UniqueID}}" (click)="toggleKD(aKD.Title)" [checked]="isKDSelected(aKD.Title)" /><label for="kd_{{aKD.InternalID}}">{{aKD.Title}}</label>
             </span>
 
-        </div>
+            </div>
 
-        <div class="form-group form-horizontal">
-            <div class="row">
-                {{AllQuestions | json}}
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <label>Questions&nbsp;<i (click)="handleAddNewQuestion()" class="glyphicon glyphicon-plus-sign" title="Add a new Question"></i></label>
+            <div class="form-group form-horizontal">
+                <div class="row">
+                    {{AllQuestions | json}}
                 </div>
-            </div>
-            <div class="row jtfj_listTableHeaderRow">
-                <div class="col-11">Title</div>
-                <div class="col-1">Actions</div>
-            </div>
-            <div class="row jtfj_listDataRow" [class]="{'jtfj_itemMarkedForDeletion': aQuestion._isDeleted}" *ngFor="let aQuestion of AllQuestions; let i = index">
-                <div class="col-11">
-                    <input type="text" name="InputQuestion{{i}}" class="form-control" [disabled]="! aQuestion._isEditing" [(ngModel)]="aQuestion.Question" />
+                <div class="row">
+                    <div class="col-12">
+                        <label>Questions&nbsp;<i (click)="handleAddNewQuestion()" class="glyphicon glyphicon-plus-sign" title="Add a new Question"></i></label>
+                    </div>
                 </div>
-                <div class="col-1 jtfj_actions">
-                    <i *ngIf="! aQuestion._isEditing && ! aQuestion._isDeleted"
-                        (click)="handleDeleteQuestion(aQuestion)" 
-                        title="Mark this question for deletion." 
-                        class="glyphicon glyphicon-trash jtfj_actionIcon">
+                <div class="row jtfj_listTableHeaderRow">
+                    <div class="col-11">Title</div>
+                    <div class="col-1">Actions</div>
+                </div>
+                <div class="row jtfj_listDataRow" [class]="{'jtfj_itemMarkedForDeletion': aQuestion._isDeleted}" *ngFor="let aQuestion of AllQuestions; let i = index">
+                    <div class="col-11">
+                        <input type="text" name="InputQuestion{{i}}" class="form-control" [disabled]="! aQuestion._isEditing" [(ngModel)]="aQuestion.Question"
+                        />
+                    </div>
+                    <div class="col-1 jtfj_actions">
+                        <i *ngIf="! aQuestion._isEditing && ! aQuestion._isDeleted" (click)="handleDeleteQuestion(aQuestion)" title="Mark this question for deletion."
+                            class="glyphicon glyphicon-trash jtfj_actionIcon">
                     </i>
-                    
-                    <i *ngIf="! aQuestion._isEditing && !aQuestion._isDeleted" 
-                        (click)="aQuestion._isEditing = true" title="Edit this question." 
-                        class="glyphicon glyphicon-edit jtfj_actionIcon">
+
+                        <i *ngIf="! aQuestion._isEditing && !aQuestion._isDeleted" (click)="aQuestion._isEditing = true" title="Edit this question."
+                            class="glyphicon glyphicon-edit jtfj_actionIcon">
                     </i>
-                    
-                    <i *ngIf="aQuestion._isDeleted" (click)="aQuestion._isDeleted = false" title="Unmark this question for deletion." class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon" ></i>
-                    <i *ngIf="aQuestion._isEditing" (click)="aQuestion._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon" title="Save your changes."></i>
-                </div>
-            </div>
-            <div class="row" [hidden]="AllQuestions && AllQuestions.length>0">
-                <div class="form-text col-12">This fact has no questions as yet.</div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-12">
-                    <label>Correct Answers&nbsp;<i (click)="handleAddNewCorrectAnswer()" class="glyphicon glyphicon-plus-sign" title="Add a new Correct answer"></i></label>
+                        <i *ngIf="aQuestion._isDeleted" (click)="aQuestion._isDeleted = false" title="Unmark this question for deletion." class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon"></i>
+                        <i *ngIf="aQuestion._isEditing" (click)="aQuestion._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon" title="Save your changes."></i>
+                    </div>
                 </div>
-            </div>
-            <div class="row jtfj_listTableHeaderRow">
-                <div class="col-11">Title</div>
-                <div class="col-1">Actions</div>
-            </div>
-            <div class="row jtfj_listDataRow" [class]="{'jtfj_itemMarkedForDeletion': aCorrectAnswer._isDeleted}" *ngFor="let aCorrectAnswer of AllCorrectAnswers; let i = index">
-                <div class="col-11">
-                    <input type="text" class="form-control" [disabled]="! aCorrectAnswer._isEditing" name="CorrectAnswer_{{i}}" [(ngModel)]="aCorrectAnswer.CorrectAnswer" />
+                <div class="row" [hidden]="AllQuestions && AllQuestions.length>0">
+                    <div class="form-text col-12">This fact has no questions as yet.</div>
                 </div>
-                <div class="col-1">
-                    <i *ngIf="! aCorrectAnswer._isEditing && ! aCorrectAnswer._isDeleted" (click)="handleDeleteCorrectAnswer(aCorrectAnswer)" title="Mark this Correct answer for deletion." class="glyphicon glyphicon-trash jtfj_actionIcon"></i>
-                    <i *ngIf="! aCorrectAnswer._isEditing && !aCorrectAnswer._isDeleted" (click)="aCorrectAnswer._isEditing = true" title="Edit this Correct answer." class="glyphicon glyphicon-edit jtfj_actionIcon"></i>
-                    <i *ngIf="aCorrectAnswer._isDeleted" (click)="aCorrectAnswer._isDeleted = false" title="Unmark this Correct answer for deletion." class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon"></i>
-                    <i *ngIf="aCorrectAnswer._isEditing" (click)="aCorrectAnswer._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon" title="Save your changes."></i>
-                </div>
-            </div>
-            <div class="row" *ngIf="AllCorrectAnswers && AllCorrectAnswers.length==0">
-                <div class="form-text col-12">This fact has no associated Correct answers as yet.</div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-12">
-                    <label>Wrong Answers&nbsp;<i (click)="handleAddNewWrongAnswer()" class="glyphicon glyphicon-plus-sign" title="Add a new wrong answer"></i></label>
-                </div>
-            </div>
-            <div class="row jtfj_listTableHeaderRow">
-                <div class="col-10">Title</div>
-                <div class="col-1">Affinity</div>
-                <div class="col-1">Actions</div>
             </div>
 
-            <div class="row jtfj_listDataRow" [class]="{'jtfj_itemMarkedForDeletion': aWrongAnswer._isDeleted}" *ngFor="let aWrongAnswer of AllWrongAnswers; let i = index">
-                <div class="col-10">
-                    <input type="text" class="form-control" [disabled]="! aWrongAnswer._isEditing" name="WrongAnswer_{{i}}" [(ngModel)]="aWrongAnswer.WrongAnswer" />
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label>Correct Answers&nbsp;<i (click)="handleAddNewCorrectAnswer()" class="glyphicon glyphicon-plus-sign" title="Add a new Correct answer"></i></label>
+                    </div>
                 </div>
-                <div class="col-1" style="text-align: right;">
-                    <!--<input type="number" class="form-control" [disabled]="! aWrongAnswer._isEditing" name="Affinity_{{i}}" [(ngModel)]="aWrongAnswer.TruthAffinity" />-->
+                <div class="row jtfj_listTableHeaderRow">
+                    <div class="col-11">Title</div>
+                    <div class="col-1">Actions</div>
                 </div>
-                <div class="col-1">
-                    <i *ngIf="! aWrongAnswer._isEditing && ! aWrongAnswer._isDeleted" (click)="handleDeleteWrongAnswer(aWrongAnswer)" title="Mark this wrong answer for deletion." class="glyphicon glyphicon-trash jtfj_actionIcon"></i>
-                    <i *ngIf="! aWrongAnswer._isEditing && !aWrongAnswer._isDeleted" (click)="aWrongAnswer._isEditing = true" title="Edit this wrong answer." class="glyphicon glyphicon-edit jtfj_actionIcon"></i>
-                    <i *ngIf="aWrongAnswer._isDeleted" (click)="aWrongAnswer._isDeleted = false" title="Unmark this wrong answer for deletion." class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon"></i>
-                    <i *ngIf="aWrongAnswer._isEditing" (click)="aWrongAnswer._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon" title="Save your changes."></i>
+                <div class="row jtfj_listDataRow" [class]="{'jtfj_itemMarkedForDeletion': aCorrectAnswer._isDeleted}" *ngFor="let aCorrectAnswer of AllCorrectAnswers; let i = index">
+                    <div class="col-11">
+                        <input type="text" class="form-control" [disabled]="! aCorrectAnswer._isEditing" name="CorrectAnswer_{{i}}" [(ngModel)]="aCorrectAnswer.CorrectAnswer"
+                        />
+                    </div>
+                    <div class="col-1">
+                        <i *ngIf="! aCorrectAnswer._isEditing && ! aCorrectAnswer._isDeleted" (click)="handleDeleteCorrectAnswer(aCorrectAnswer)"
+                            title="Mark this Correct answer for deletion." class="glyphicon glyphicon-trash jtfj_actionIcon"></i>
+                        <i *ngIf="! aCorrectAnswer._isEditing && !aCorrectAnswer._isDeleted" (click)="aCorrectAnswer._isEditing = true" title="Edit this Correct answer."
+                            class="glyphicon glyphicon-edit jtfj_actionIcon"></i>
+                        <i *ngIf="aCorrectAnswer._isDeleted" (click)="aCorrectAnswer._isDeleted = false" title="Unmark this Correct answer for deletion."
+                            class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon"></i>
+                        <i *ngIf="aCorrectAnswer._isEditing" (click)="aCorrectAnswer._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon"
+                            title="Save your changes."></i>
+                    </div>
+                </div>
+                <div class="row" *ngIf="AllCorrectAnswers && AllCorrectAnswers.length==0">
+                    <div class="form-text col-12">This fact has no associated Correct answers as yet.</div>
                 </div>
             </div>
-            <div class="row" *ngIf="AllWrongAnswers && AllWrongAnswers.length==0">
-                <div class="form-text col-12">This fact has no associated wrong answers as yet.</div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <label>Wrong Answers&nbsp;<i (click)="handleAddNewWrongAnswer()" class="glyphicon glyphicon-plus-sign" title="Add a new wrong answer"></i></label>
+                    </div>
+                </div>
+                <div class="row jtfj_listTableHeaderRow">
+                    <div class="col-10">Title</div>
+                    <div class="col-1">Affinity</div>
+                    <div class="col-1">Actions</div>
+                </div>
+
+                <div class="row jtfj_listDataRow" [class]="{'jtfj_itemMarkedForDeletion': aWrongAnswer._isDeleted}" *ngFor="let aWrongAnswer of AllWrongAnswers; let i = index">
+                    <div class="col-10">
+                        <input type="text" class="form-control" [disabled]="! aWrongAnswer._isEditing" name="WrongAnswer_{{i}}" [(ngModel)]="aWrongAnswer.WrongAnswer"
+                        />
+                    </div>
+                    <div class="col-1" style="text-align: right;">
+                        <!--<input type="number" class="form-control" [disabled]="! aWrongAnswer._isEditing" name="Affinity_{{i}}" [(ngModel)]="aWrongAnswer.TruthAffinity" />-->
+                    </div>
+                    <div class="col-1">
+
+                        <i *ngIf="! aWrongAnswer._isEditing && ! aWrongAnswer._isDeleted" (click)="handleDeleteWrongAnswer(aWrongAnswer)" title="Mark this wrong answer for deletion."
+                            class="fa fa-trash jtfj_actionIcon" aria-hidden="true">
+                        </i>
+
+                        <i *ngIf="! aWrongAnswer._isEditing && !aWrongAnswer._isDeleted" (click)="aWrongAnswer._isEditing = true" title="Edit this wrong answer."
+                            class="fa fa-trash jtfj_actionIcon" aria-hidden="true">
+                        </i>
+
+                        <i *ngIf="aWrongAnswer._isDeleted" (click)="aWrongAnswer._isDeleted = false" title="Unmark this wrong answer for deletion."
+                            class="fa fa-trash gly-rotate-180 jtfj_actionIcon">
+                        </i>
+
+                        <i *ngIf="aWrongAnswer._isEditing" (click)="aWrongAnswer._isEditing = false" 
+                            class="fa fa-floppy-o jtfj_actionIcon"
+                            title="Save your changes.">
+                        </i>
+                    </div>
+                </div>
+                <div class="row" *ngIf="AllWrongAnswers && AllWrongAnswers.length==0">
+                    <div class="form-text col-12">This fact has no associated wrong answers as yet.</div>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" (click)="handleSave()">Save</button>
+                <button type="button" class="btn btn-warning" (click)="handleDelete()">Delete</button>
+                <button type="button" class="btn btn-warning" (click)="handleCancel(false)">Cancel</button>
             </div>
         </div>
 
     </form>
-
-<div class="row">
-    <div class="col-12">
-        <!--<button ng-disabled="! factForm.$dirty" type="button" class="btn btn-primary" ng-click="vm.HandleSave()">Save</button>
-        <button ng-show="! vm.IsNewItem" type="button" class="btn btn-warning" ng-click="vm.HandleDelete()">Delete</button>
-        <button type="button" class="btn btn-warning" ng-click="vm.HandleCancel(factForm.$dirty)">Cancel</button>-->
-        <button type="button" class="btn btn-primary" (click)="handleSave()">Save</button>
-        <button type="button" class="btn btn-warning" (click)="handleDelete()">Delete</button>
-        <button type="button" class="btn btn-warning" (click)="handleCancel(false)">Cancel</button>
-    </div>
-</div>
-
-</form>
 
 </div>
