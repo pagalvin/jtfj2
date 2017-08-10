@@ -1,4 +1,6 @@
+import { ViewDebugToggleComponent } from './Framework/view-debug-toggle-component/view-debug-toggle.component';
 import { Component } from '@angular/core';
+import { ViewDebugToggleService } from "./Framework/view-debug-toggle-component/view-debug-toggle.service";
 
 @Component({
   selector: 'just-the-facts-jack',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  public get debugView() : boolean {return this.debugServicve.ViewDebugIsEnabled}
+  
+  constructor(private debugServicve: ViewDebugToggleService) {
+
+  }
+
 }
