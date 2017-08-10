@@ -6,7 +6,7 @@ import { Functionals as F } from "../../Framework/Util/Functionals";
 import { ConsoleLog } from "../../Framework/Logging/ConsoleLogService";
 import { KnowledgeDomainItem } from "../KnowledgeDomains/KDItem";
 import { KnowledgeDomainsService} from "../KnowledgeDomains/KD.Service";
-
+import { ViewDebugToggleService } from "../../Framework/view-debug-toggle-component/view-debug-toggle.service";
 import * as CustomErrors from "../../Framework/ErrorHandling/ErrorsService";
 
 @Component({
@@ -16,11 +16,13 @@ import * as CustomErrors from "../../Framework/ErrorHandling/ErrorsService";
 export class FactsListComponent implements OnInit {
 
     public get AllFacts() { return this.factsService.AllFacts; }
-
+    public get viewDebug() { return this.viewDebugService.ViewDebugIsEnabled }
+    
     constructor(
         private factsService: FactsService,
         private kdService: KnowledgeDomainsService,
-        private clog: ConsoleLog) {
+        private clog: ConsoleLog,
+        private viewDebugService: ViewDebugToggleService) {
 
         this.clog.debug(`KnowledgeDomainListController: ctor: Entering.`);
 
