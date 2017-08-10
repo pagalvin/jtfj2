@@ -32,6 +32,12 @@ import { ConsoleLog } from './Framework/Logging/ConsoleLogService';
 import { ErrorsService } from "./Framework/ErrorHandling/ErrorsService";
 import { QuizSelectorComponent } from './EndUser/quiz-selector/quiz-selector.component';
 
+import { ViewDebugToggleComponent } from './Framework/view-debug-toggle-component/view-debug-toggle.component';
+import { ViewDebugToggleService } from './Framework/view-debug-toggle-component/view-debug-toggle.service';
+
+import { NodeUtilsComponent } from './Admin/node-utils/node-utils.component';
+import { NodeUtilsService } from './Admin/node-utils/node-utils.service';
+
 const ROUTES = [
   { path: 'Admin/KnowledgeDomains', component: KnowledgeDomainsListComponent},
   { path: 'Admin/KnowledgeDomain/:domainID', component: KnowledgeDomainsCrudComponent},
@@ -40,6 +46,7 @@ const ROUTES = [
   { path: 'Admin/QuizTemplates', component: QuizTemplatesListComponent},
   { path: 'Admin/QuizTemplate/:quizTemplateID', component: QTCrudComponent},
   { path: 'TakeAQuiz/:quizTemplateID', component: QICrudComponent},
+  { path: 'Admin/NodeUtilities', component: NodeUtilsComponent},
   { path: '', component: QuizSelectorComponent }
 
 ];
@@ -56,6 +63,8 @@ const ROUTES = [
     QuizTemplatesListComponent,
     QICrudComponent,
     QuizSelectorComponent,
+    ViewDebugToggleComponent,
+    NodeUtilsComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +81,9 @@ const ROUTES = [
     ConsoleLog,
     ErrorsService,
     QuizTemplatesService,
-    QIService
+    QIService,
+    ViewDebugToggleService,
+    NodeUtilsService
   ],
   bootstrap: [AppComponent]
 })
