@@ -10,6 +10,10 @@ router.get('/', (req, res) => {
   res.send('api works');
 });
 
+router.get('/ping', (req, res) => {
+    res.status(200).json({from: "api.js under node", answer: "ping!"});
+})
+
 // Get all posts
 router.get('/posts', (req, res) => {
   // Get posts from the mock api
@@ -21,6 +25,12 @@ router.get('/posts', (req, res) => {
     .catch(error => {
       res.status(500).send(error)
     });
+});
+
+router.get('/random', (req, res) => {
+
+
+
 });
 
 module.exports = router;
