@@ -1,4 +1,5 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { ViewDebugToggleComponent } from '../../Framework/view-debug-toggle-component/view-debug-toggle.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -10,10 +11,11 @@ import { FactsService } from './Facts.Service';
 import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
 import { KnowledgeDomainsService } from '../KnowledgeDomains/KD.Service';
 
-import * as ErrorsModule from "../../Framework/ErrorHandling/ErrorsService";
+import * as ErrorsModule from '../../Framework/ErrorHandling/ErrorsService';
 import * as CommonInterfaces from '../../Interfaces/Interfaces';
 
 import { ConsoleLog } from '../../Framework/Logging/ConsoleLogService';
+import { ViewDebugToggleService } from "../../Framework/view-debug-toggle-component/view-debug-toggle.service";
 
 @Component({
     templateUrl: './FactCrud.View.html',
@@ -43,12 +45,15 @@ export class FactCrudComponent implements OnInit, OnDestroy {
 
     private paramSubscription: Subscription;
 
+    public get viewDebug() { return this.debugService.ViewDebugIsEnabled; }
+    
     constructor(private clog: ConsoleLog,
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private kdService: KnowledgeDomainsService,
         private factsService: FactsService,
-        private errorsService: ErrorsModule.ErrorsService) {
+        private errorsService: ErrorsModule.ErrorsService,
+        private debugService: ViewDebugToggleService) {
 
         this.clog.debug(`KnowledgeDomainCrudController: ctor: Entering.`);
 

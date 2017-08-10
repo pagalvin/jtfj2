@@ -1,22 +1,14 @@
-﻿<h3>List facts!</h3>
+﻿<div class="container">
 
-<p>
-    <a href="#/Admin/Fact/123">View an individual fact.</a>
-</p>
-<p>
-    <a href="javascript:void(0);" ng-click="ping()">Ping the service.</a>
-</p>
-<a [routerLink]="['/Admin/Fact', 'New']">New Fact</a>
-
-
-<div class="container">
+    <h3>All Facts</h3>
 
     <div class="row">
         <div class="col-12">
             <h3>
                 Facts
-                <a title="Add a mew fact" [routerLink]="['/Admin/Fact', 'New']"><span class="glyphicon glyphicon-plus"></span></a>
-                <!--<span class="glyphicon glyphicon-plus" onclick="window.location.href = '#/Admin/Fact/New'" title="Add a new Fact"></span>-->
+                <a title="Add a mew fact" [routerLink]="['/Admin/Fact', 'New']">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                </a>
             </h3>
         </div>
 
@@ -52,7 +44,6 @@
                 {{aFact.Description}}
             </div>
             <div class="col-1">
-                <!--<a href="#/Admin/Fact/{{aFact.UniqueID}}"><span class="glyphicon glyphicon-edit"></span></a>-->
                 ID: <span *ngIf="aFact && aFact.UniqueID">{{aFact.UniqueID}}</span>
                 <a *ngIf="aFact && aFact.UniqueID" [routerLink]="['/Admin/Fact', aFact.UniqueID]">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -76,7 +67,9 @@
 <h5>All Knowledge Domains</h5>
 <pre>{{vm.AllKnowledgeDomains | json}}</pre>-->
 
-    <h5>All Facts</h5>
-    <pre>{{AllFacts | json}}</pre>
+    <div *ngIf="viewDebug">
+        <h5>All Facts</h5>
+        <pre>{{AllFacts | json}}</pre>
+    </div>
 
 </div>

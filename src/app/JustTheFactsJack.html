@@ -1,5 +1,6 @@
 
-<h4> start JustTheFactsjack.html</h4>
+<h4 *ngIf="debugView"> start JustTheFactsjack.html</h4>
+
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -29,7 +30,11 @@
           <a class="dropdown-item" [routerLink]="['/Admin/KnowledgeDomains']">Knowledge Domains</a>
           <a class="dropdown-item" [routerLink]="['/Admin/Facts']">Facts</a>
           <a class="dropdown-item" [routerLink]="['Admin/QuizTemplates']">Quiz Templates</a>
+          <a class="dropdown-item" [routerLink]="['Admin/NodeUtilities']">Node Utilities</a>
         </div>
+      </li>
+      <li class="nav-item">
+        <jtfj-view-debug-toggle-component></jtfj-view-debug-toggle-component>
       </li>
     </ul>
   </div>
@@ -37,4 +42,4 @@
 
 <router-outlet></router-outlet>
 
-<h4> end JustTheFactsjack.html</h4>
+<h4 *ngIf="debugView"> end JustTheFactsjack.html</h4>

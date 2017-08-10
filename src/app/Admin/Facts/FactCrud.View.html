@@ -19,15 +19,15 @@
     }
 </style>
 
-<h1>Fact Crud View</h1>
-
 <div class="container">
+
+    <h1 *ngIf="viewDebug">Create / Edit Facts (FactCrud.View.html)</h1>
 
     <form name="factCrudForm">
 
         <div class="row">
             <div class="col-12">
-                <h3 *ngIf="IsNewItem">New Fact</h3>
+                <h3 *ngIf="IsNewItem">Add a New Fact</h3>
                 <h3 *ngIf="!IsNewItem">Edit an Existing Fact</h3>
             </div>
         </div>
@@ -64,12 +64,16 @@
             </div>
 
             <div class="form-group form-horizontal">
-                <div class="row">
+                <div class="row" *ngIf="viewDebug">
                     {{AllQuestions | json}}
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <label>Questions&nbsp;<i (click)="handleAddNewQuestion()" class="glyphicon glyphicon-plus-sign" title="Add a new Question"></i></label>
+                        <label>Questions&nbsp;
+                            <i (click)="handleAddNewQuestion()" 
+                                class="fa fa-plus-square" aria-hidden="true" title="Add a new Question">
+                            </i>
+                        </label>
                     </div>
                 </div>
                 <div class="row jtfj_listTableHeaderRow">
@@ -83,15 +87,15 @@
                     </div>
                     <div class="col-1 jtfj_actions">
                         <i *ngIf="! aQuestion._isEditing && ! aQuestion._isDeleted" (click)="handleDeleteQuestion(aQuestion)" title="Mark this question for deletion."
-                            class="glyphicon glyphicon-trash jtfj_actionIcon">
+                            class="fa fa-trash jtfj_actionIcon">
                     </i>
 
                         <i *ngIf="! aQuestion._isEditing && !aQuestion._isDeleted" (click)="aQuestion._isEditing = true" title="Edit this question."
-                            class="glyphicon glyphicon-edit jtfj_actionIcon">
+                            class="fa fa-edit jtfj_actionIcon">
                     </i>
 
-                        <i *ngIf="aQuestion._isDeleted" (click)="aQuestion._isDeleted = false" title="Unmark this question for deletion." class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon"></i>
-                        <i *ngIf="aQuestion._isEditing" (click)="aQuestion._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon" title="Save your changes."></i>
+                        <i *ngIf="aQuestion._isDeleted" (click)="aQuestion._isDeleted = false" title="Unmark this question for deletion." class="fa fa-trash gly-rotate-180 jtfj_actionIcon"></i>
+                        <i *ngIf="aQuestion._isEditing" (click)="aQuestion._isEditing = false" class="fa fa-save jtfj_actionIcon" title="Save your changes."></i>
                     </div>
                 </div>
                 <div class="row" [hidden]="AllQuestions && AllQuestions.length>0">
@@ -102,7 +106,9 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-12">
-                        <label>Correct Answers&nbsp;<i (click)="handleAddNewCorrectAnswer()" class="glyphicon glyphicon-plus-sign" title="Add a new Correct answer"></i></label>
+                        <label>Correct Answers&nbsp;<i (click)="handleAddNewCorrectAnswer()" 
+                            class="fa fa-plus-square" aria-hidden="true"
+                         title="Add a new Correct answer"></i></label>
                     </div>
                 </div>
                 <div class="row jtfj_listTableHeaderRow">
@@ -116,12 +122,12 @@
                     </div>
                     <div class="col-1">
                         <i *ngIf="! aCorrectAnswer._isEditing && ! aCorrectAnswer._isDeleted" (click)="handleDeleteCorrectAnswer(aCorrectAnswer)"
-                            title="Mark this Correct answer for deletion." class="glyphicon glyphicon-trash jtfj_actionIcon"></i>
+                            title="Mark this Correct answer for deletion." class="fa fa-trash jtfj_actionIcon"></i>
                         <i *ngIf="! aCorrectAnswer._isEditing && !aCorrectAnswer._isDeleted" (click)="aCorrectAnswer._isEditing = true" title="Edit this Correct answer."
-                            class="glyphicon glyphicon-edit jtfj_actionIcon"></i>
+                            class="fa fa-edit jtfj_actionIcon"></i>
                         <i *ngIf="aCorrectAnswer._isDeleted" (click)="aCorrectAnswer._isDeleted = false" title="Unmark this Correct answer for deletion."
-                            class="glyphicon glyphicon-trash gly-rotate-180 jtfj_actionIcon"></i>
-                        <i *ngIf="aCorrectAnswer._isEditing" (click)="aCorrectAnswer._isEditing = false" class="glyphicon glyphicon-save jtfj_actionIcon"
+                            class="fa fa-trash gly-rotate-180 jtfj_actionIcon"></i>
+                        <i *ngIf="aCorrectAnswer._isEditing" (click)="aCorrectAnswer._isEditing = false" class="fa fa-save jtfj_actionIcon"
                             title="Save your changes."></i>
                     </div>
                 </div>
@@ -133,7 +139,9 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-12">
-                        <label>Wrong Answers&nbsp;<i (click)="handleAddNewWrongAnswer()" class="glyphicon glyphicon-plus-sign" title="Add a new wrong answer"></i></label>
+                        <label>Wrong Answers&nbsp;<i (click)="handleAddNewWrongAnswer()" 
+                            class="fa fa-plus-square" aria-hidden="true"
+                             title="Add a new wrong answer"></i></label>
                     </div>
                 </div>
                 <div class="row jtfj_listTableHeaderRow">
@@ -164,9 +172,7 @@
                             class="fa fa-trash gly-rotate-180 jtfj_actionIcon">
                         </i>
 
-                        <i *ngIf="aWrongAnswer._isEditing" (click)="aWrongAnswer._isEditing = false" 
-                            class="fa fa-floppy-o jtfj_actionIcon"
-                            title="Save your changes.">
+                        <i *ngIf="aWrongAnswer._isEditing" (click)="aWrongAnswer._isEditing = false" class="fa fa-floppy-o jtfj_actionIcon" title="Save your changes.">
                         </i>
                     </div>
                 </div>
