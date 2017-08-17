@@ -25,4 +25,24 @@ export class NodeUtilsComponent implements OnInit {
     this.nodeUtilsService.PingNode();
     
   }
+
+  public GetNodeStatus() {
+
+    this.clog.info(`node-utils.component: GetNodeStatus: Entering.`);
+
+    this.nodeUtilsService.GetNodeStatus();
+    
+  }
+
+  public AddNewKnowledgeDomain() {
+
+    this.nodeUtilsService.AddNewKnowledgeDomain();
+    
+  }
+
+  public UpdateKnowledgeDomain() {
+
+    this.nodeUtilsService.UpdateKnowledgeDomain();
+    
+  }
 }
