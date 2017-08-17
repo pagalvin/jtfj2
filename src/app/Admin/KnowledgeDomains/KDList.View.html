@@ -12,7 +12,6 @@
         </div>
     </div>
 
-    <div class="container">
         <div class="row jtfj_listTableHeaderRow">
 
             <div class="col-4">
@@ -42,15 +41,14 @@
             </div>
 
         </div>
+
+        <div *ngIf="viewDebug">
+            <div class="col-12">
+                <hr/>
+                <h5>All Knowledge Domains</h5>
+                <pre>{{AllKnowledgeDomains | json}}</pre>
+            </div>
+        <div>
+
     </div>
 
-</div>
-
-<!--<p>
-    <a href="#/admin/knowledgedomain/123">View an individual knowledge domain.</a>
-</p>
-<p>
-    <a href="javascript:void(0);" ng-click="vm.Ping()">Ping the service.</a>
-</p>
-<h5>All Knowledge Domains</h5>
-<pre>{{vm.AllKnowledgeDomains | json}}</pre>-->
