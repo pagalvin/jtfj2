@@ -6,6 +6,7 @@ import { ConsoleLog } from '../../Framework/Logging/ConsoleLogService';
 import { Injectable } from '@angular/core';
 import { Util } from '../../Framework/Util/Util';
 import { AbstractAngularService } from '../../Framework/Data Structures/AbstractAngularService'
+import { MongoKDService } from '../../Framework/Data Services/MongoKD.service';
 
 "use strict";
 
@@ -18,7 +19,9 @@ export class KnowledgeDomainsService extends AbstractAngularService {
     private kdLoadPromise: Promise<KnowledgeDomainItem[]>;
 
     constructor(private _recordIDsService: RecordIDsService,
-        private clog: ConsoleLog) {
+        private clog: ConsoleLog,
+        private mongoKDService: MongoKDService
+    ) {
 
         super();
         this.kdLoadPromise = this.loadAllKnowledgeDomains();
@@ -97,11 +100,50 @@ export class KnowledgeDomainsService extends AbstractAngularService {
     }
 
     public async deleteKnowledgeDomainByID(theDomainID: string): Promise<boolean> {
-        this._allKnowledgeDomains = Functionals.filterOutEntityByUniqueID(theDomainID, this._allKnowledgeDomains);
-        return await this.persistKnowledgeDomains();
+        
+        return new Promise<boolean>( async (resolve, rejectO) => {
+
+            this.clog.info(`KD.Service: deleteKowledgeDomainByID: Entering. Awaiting mongoKDService.deleteItem().`);
+
+            const deleteResult = await this.mongoKDService.deleteItem(theDomainID);
+
+            this.clog.info(`KD.Service: deleteKowledgeDomainByID: Item successfully deleted, updating all KDs.`);
+            
+            this._allKnowledgeDomains = Functionals.filterOutEntityByUniqueID(theDomainID, this._allKnowledgeDomains);
+            
+            resolve(true);
+        })
     }
 
-    public async saveKnowledgeDomain(theDomain: KnowledgeDomainItem) {
+    public async saveKnowledgeDomain(kdToSave: KnowledgeDomainItem) {
+
+        this.clog.debug(`KnowledgeDomainService: saveKnowledgeDomain: Entering, will save a domain:`, { dmn: kdToSave });
+        this.clog.debug(`KnowledgeDomainService: saveKnowledgeDomain: is id assigned?:`, Functionals.isIDAssigned(kdToSave));
+
+        if (! Functionals.isIDAssigned(kdToSave)) {
+
+            this.clog.debug(`KnowledgeDomainService: saveKnowledgeDomain: No ID assigned, will create a new record on the mongo side.`);
+
+            const savedDomain = await this.mongoKDService.createItem(kdToSave);
+
+            this._allKnowledgeDomains = Functionals.getMergedCollection(this._allKnowledgeDomains, savedDomain);
+
+            this.clog.info(`KnowledgeDomainService: saveKnowledgeDomain: saved domain:`, {sd: savedDomain, all: this._allKnowledgeDomains});
+        }
+        else {
+            this.clog.debug(`KnowledgeDomainService: saveKnowledgeDomain: Already has an ID, no need to get a new one.`);
+
+            const updatedDomain = await this.mongoKDService.updateItem(kdToSave);
+            this.clog.info(`KnowledgeDomainService: saveKnowledgeDomain: updated domain:`, updatedDomain)
+
+            this._allKnowledgeDomains = Functionals.getMergedCollection(this._allKnowledgeDomains, kdToSave);
+        }
+
+    }
+
+
+
+    public async saveKnowledgeDomain_localstorage(theDomain: KnowledgeDomainItem) {
 
         this.clog.debug(`KnowledgeDomainService: Entering, will save a domain:`, { dmn: theDomain });
         this.clog.debug(`KnowledgeDomainService: is id assigned?:`, Functionals.isIDAssigned(theDomain));
@@ -117,7 +159,8 @@ export class KnowledgeDomainsService extends AbstractAngularService {
             this._allKnowledgeDomains = Functionals.getMergedCollection(this._allKnowledgeDomains, theDomain);
             
             await this.persistKnowledgeDomains();
-            
+            this.mongoKDService.createItem(theDomain);
+
         }
         else {
             this.clog.debug(`KnowledgeDomainService: SaveKnowledgeDomain: Already has an ID, no need to get a new one.`);
@@ -127,9 +170,27 @@ export class KnowledgeDomainsService extends AbstractAngularService {
 
     }
 
-    private loadAllKnowledgeDomains(): Promise<KnowledgeDomainItem[]> {
+    private async loadAllKnowledgeDomains(): Promise<KnowledgeDomainItem[]> {
+
+        return new Promise<KnowledgeDomainItem[]> (async (resolve, reject) => {
+            
+            const allMongoDomains = await this.mongoKDService.getItems();
+            
+            this._allKnowledgeDomains = allMongoDomains || [];
+
+            this.clog.debug(`KnowledgeDomainService: loadAllKnowledgeDomains: Resolving with domains:`, this._allKnowledgeDomains);
+
+            resolve(this._allKnowledgeDomains);
+
+        });
+
+    }
+
+    private loadAllKnowledgeDomains_localStorage(): Promise<KnowledgeDomainItem[]> {
 
         return new Promise<KnowledgeDomainItem[]> ((resolve, reject) => {
+            
+            this.mongoKDService.getItems();
             
             this._allKnowledgeDomains = JSON.parse(localStorage.getItem("knowledgedomains"));
 

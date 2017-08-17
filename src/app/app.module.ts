@@ -38,6 +38,8 @@ import { ViewDebugToggleService } from './Framework/view-debug-toggle-component/
 import { NodeUtilsComponent } from './Admin/node-utils/node-utils.component';
 import { NodeUtilsService } from './Admin/node-utils/node-utils.service';
 
+import { MongoKDService } from './Framework/Data Services/MongoKD.service';
+
 const ROUTES = [
   { path: 'Admin/KnowledgeDomains', component: KnowledgeDomainsListComponent},
   { path: 'Admin/KnowledgeDomain/:domainID', component: KnowledgeDomainsCrudComponent},
@@ -83,7 +85,8 @@ const ROUTES = [
     QuizTemplatesService,
     QIService,
     ViewDebugToggleService,
-    NodeUtilsService
+    NodeUtilsService,
+    MongoKDService
   ],
   bootstrap: [AppComponent]
 })
