@@ -6,6 +6,12 @@
 # Auto-generated compdoc documentation
 /documentation
 
+# Ignore REST Client tests.
+/RestClient
+
+# Ignore config.js (has mongo url/passwd and such)
+server/config/config.js
+
 # compiled output
 /dist
 /tmp
