@@ -1,5 +1,6 @@
 ﻿import { AbstractItem, IAbstractItem } from '../../Framework/Data Structures/AbstractItem';
 import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
+import { IEntityMetadata } from '../../Framework/Data Structures/IEntityMetadata';
 
     export interface IWrongAnswer {
         WrongAnswer: string;
@@ -40,10 +41,11 @@ import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
         public CorrectAnswers: ICorrectAnswer[];
         public WrongAnswers: IWrongAnswer[];
 
+        public get EntityMetadata(): () => IEntityMetadata { return FactItem.GetEntityMetadata }
+
         constructor() {
             super();
 
-            this.FactStatement = "";
             this.UniqueID = "";
             this.CorrectAnswers = [];
             this.Description = "";
@@ -70,22 +72,15 @@ import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
 
         }
 
-        // static CreateRandomFact(): FactItem {
+        static GetEntityMetadata(): IEntityMetadata {
 
-        //     const result = new FactItem();
+            return {
+                ConsoleLoggingLabel: "Fact",
+                MongoCollectionName: "Facts",
+                PropertyNames: AbstractItem.EntityProperties.concat(["FactStatement","CorrectAnswers","Description","FactID","KnowledgeDomains","WrongAnswers", "Questions"]),
+                ApiRouteBaseName: 'Fact',
+                EmptyItem: () => new FactItem()
+            }
+        }
 
-        //     result.Description = chance.sentence();
-        //     result.FactStatement = chance.sentence();
-        //     result.KnowledgeDomains = ["Presidents"];
-        //     result.WrongAnswers = _.range(chance.integer({ min: 1, max: 5 })).map(() => {
-        //         return <IWrongAnswer>{
-        //             WrongAnswer: "false: " + chance.sentence(), TruthAffinity: chance.integer({ min: 0, max: 99 })
-        //         }
-        //     });
-
-        //     return result;
-
-        // }
-    
-
-    }
+}
