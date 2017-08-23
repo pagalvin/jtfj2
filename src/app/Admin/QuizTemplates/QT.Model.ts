@@ -1,6 +1,7 @@
 ﻿import { AbstractItem, IAbstractItem } from '../../Framework/Data Structures/AbstractItem';
 import { IFactItem } from '../Facts/FactModel';
 import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
+import { IEntityMetadata } from '../../Framework/Data Structures/IEntityMetadata';
 
     export interface IQuizTemplateItem extends IAbstractItem{
         Title: string;
@@ -16,6 +17,8 @@ import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
         public KnowledgeDomains: KnowledgeDomainItem[];
         public Facts: IFactItem[];
 
+        public get EntityMetadata(): () => IEntityMetadata { return QuizTemplateItem.GetEntityMetadata }
+
         constructor() {
             super();
 
@@ -26,7 +29,9 @@ import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
             this.Facts = [];
         }
 
-        static initializeNulls(theItem: QuizTemplateItem): QuizTemplateItem {
+        static deNulled(theItem: QuizTemplateItem): QuizTemplateItem {
+
+            console.info(`QT.Model: deNulled: de-nulling an item, theItem:`, theItem);
 
             const result = new QuizTemplateItem();
             result.Description = theItem.Description || "";
@@ -35,8 +40,21 @@ import { KnowledgeDomainItem } from '../KnowledgeDomains/KDItem';
             result.Facts = theItem.Facts || [];
             result.KnowledgeDomains = theItem.KnowledgeDomains || [];
 
+            console.info(`QT.Model: deNulled: denulled item, theItem:`, result);
+
             return result;
 
+        }
+
+        static GetEntityMetadata(): IEntityMetadata {
+
+            return {
+                ConsoleLoggingLabel: "QuizTemplateItem",
+                MongoCollectionName: "QuizTemplateItems",
+                PropertyNames: AbstractItem.EntityProperties.concat(["Description", "KnowledgeDomains","Facts", "Title"]),
+                ApiRouteBaseName: 'QuizTemplate',
+                EmptyItem: () => new QuizTemplateItem()
+            }
         }
 
     }
