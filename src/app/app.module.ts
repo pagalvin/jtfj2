@@ -38,7 +38,7 @@ import { ViewDebugToggleService } from './Framework/view-debug-toggle-component/
 import { NodeUtilsComponent } from './Admin/node-utils/node-utils.component';
 import { NodeUtilsService } from './Admin/node-utils/node-utils.service';
 
-import { MongoKDService } from './Framework/Data Services/MongoKD.service';
+import { MongoService } from './Framework/Data Services/MongoData.service';
 
 const ROUTES = [
   { path: 'Admin/KnowledgeDomains', component: KnowledgeDomainsListComponent},
@@ -86,7 +86,7 @@ const ROUTES = [
     QIService,
     ViewDebugToggleService,
     NodeUtilsService,
-    MongoKDService
+    MongoService
   ],
   bootstrap: [AppComponent]
 })
