@@ -11,6 +11,8 @@ import { QuizTemplatesService } from "./QT.Service";
 import { KnowledgeDomainsService } from "../KnowledgeDomains/KD.Service";
 import { FactsService } from "../Facts/Facts.Service";
 import { ConsoleLog } from "../../Framework/Logging/ConsoleLogService";
+import { ViewDebugToggleService } from "../../Framework/view-debug-toggle-component/view-debug-toggle.service";
+
 import * as KDM from "../KnowledgeDomains/KDItem";
 import * as FM from "../Facts/FactModel";
 import * as QTM from "./QT.Model";
@@ -22,13 +24,16 @@ import * as QTM from "./QT.Model";
     })
     export class QTCrudComponent {
 
+        public get viewDebug() { return this.debugService.ViewDebugIsEnabled; }
+
         private _allQuizTemplate: KDM.KnowledgeDomainItem[];
         private isNewQuizTemplateItem: boolean = false;
         public get IsNewItem(): boolean { return this.isNewQuizTemplateItem; }
 
         public InputQuizTemplateTitle: string;
         public InputDescription: string;
-        public InputKnowledgeDomains: KDM.KnowledgeDomainItem[];
+        // public InputKnowledgeDomains: KDM.KnowledgeDomainItem[];
+        public InputKnowledgeDomains: string[];
 
         public get AllKnowledgeDomains() { return this.kdService.AllKnowledgeDomains; };
         public AllFacts: FM.IFactItem[];
@@ -48,7 +53,8 @@ import * as QTM from "./QT.Model";
             private quizTemplatesService: QuizTemplatesService,
             private kdService: KnowledgeDomainsService,
             private factsService: FactsService,
-            private errorsService: ErrorsService
+            private errorsService: ErrorsService,
+            private debugService: ViewDebugToggleService
         ) {
 
             this.clog.debug(`QTCrud.Component: ctor: Entering.`);
@@ -73,27 +79,36 @@ import * as QTM from "./QT.Model";
             try {
                 this.paramSubscription = this.activatedRoute.params.subscribe(async params => {
                         
-                    this.clog.debug(`FactCrudComponent: ngOnInit: got params:`, params)
+                    this.clog.debug(`QTCrudComponent: ngOnInit: got params:`, params)
 
                     this.isNewQuizTemplateItem = (params["quizTemplateID"] && new String(params["quizTemplateID"]).toLowerCase()) === "new" ? true : false;
                     this.existingQuizTemplateID = this.isNewQuizTemplateItem ? null : params["quizTemplateID"];
                     
                     const kdPromise = this.kdService.getKnowledgeDomains();
                     const factsPromise = this.factsService.loadAllFacts();
-                    const quizTemplatePromise = this.isNewQuizTemplateItem ? this.initializeNewQuizTemplate() : this._initializeExistingQuizTemplate();
 
-                    await [kdPromise, factsPromise, quizTemplatePromise];
+                    this.clog.info(`QTCrud.Component: ngOnInit: Awaiting KD promise.`);
+                    const kdresults = await kdPromise;
+                    this.clog.info(`QTCrud.Component: ngOnInit: KDs loaded, results:`, kdresults);
+
+                    this.clog.info(`QTCrud.Component: ngOnInit: Awaiting facts promise.`);
+                    const factResults = await factsPromise;
+                    this.AllFacts = this.factsService.AllFacts;
+                    this.clog.info(`QTCrud.Component: ngOnInit: KDs loaded, results:`, factResults);
+
+                    // After KDs and facts are loaded, we can load the quiz template.
+                    const quizTemplatePromise = this.isNewQuizTemplateItem ? this.initializeNewQuizTemplate() : this._initializeExistingQuizTemplate();
+                    await quizTemplatePromise;
                     
                     this.clog.debug(`QuizTemplatecontroller: _initializeQuizTemplate: Promises all resolved!`);
 
-                    this.AllFacts = this.factsService.AllFacts;
                     this.clog.debug(`QTCrud.Component: _initializeQuizTemplate: all facts:`, this.AllFacts);
 
                 });
             }
             catch (initializationException) {
                 this.clog.error(`QTCrud.Component: Error: failed to initialize this quiz template! Error details:`, initializationException);
-                throw this.errorsService.GetNewError(`FactCrud.Component: Error: Failed to initialize due to exception.`, initializationException);
+                throw this.errorsService.GetNewError(`QTCrud.Component: Error: Failed to initialize due to exception.`, initializationException);
             }
 
         }
@@ -129,56 +144,22 @@ import * as QTM from "./QT.Model";
 
         }
 
-        // private _initializeQuizTemplate() {
-
-        //     this.isNewQuizTemplateItem = this.$routeParams.quizTemplateID.toLowerCase() === "new" ? true : false;
-
-        //     // set up data load promises
-        //     const loadAllFactsPromise = this.factsService.LoadAllFacts();
-        //     const loadAllKnowledgeDomains = this.kdService.GetKnowledgeDomains();
-
-        //     const initializeTemplatePromise = this.isNewQuizTemplateItem ? this._initializeNewQuizTemplate() : this._initializeExistingQuizTemplate();
-
-        //     this.clog.debug(`QuizTemplatecontroller: _initializeQuizTemplate: Waiting on all promises.`);
-
-        //     this.$q.all([loadAllFactsPromise, loadAllKnowledgeDomains, initializeTemplatePromise]).then(
-        //         () => {
-
-        //             this.clog.debug(`QuizTemplatecontroller: _initializeQuizTemplate: Promises all resolved!`);
-
-        //             this.AllFacts = this.factsService.AllFacts;
-        //             this.clog.debug(`QTCrud.Component: _initializeQuizTemplate: all facts:`, this.AllFacts);
-
-        //             this.AllUnselectedFacts = this.AllFacts.reduce((allUnselectedFacts, currentAllFact) => {
-
-        //                 if (F.entityIsInCollection(this.AllSelectedFacts, currentAllFact.UniqueID)) {
-        //                     return allUnselectedFacts;
-        //                 }
-
-        //                 return allUnselectedFacts.concat(currentAllFact);
-
-        //             }, []);
-
-        //         },
-        //         (errorDetails) => {
-        //             this.clog.error(`QTCrud.Component: Error: failed to initialize this quiz template! Error details:`, errorDetails);
-        //         }
-        //     );
-
-        // }
-
         private _initializeExistingQuizTemplate(): Promise<boolean>{
 
             return new Promise<boolean>((resolve, reject) => {
                 this.quizTemplatesService.getQuizTemplateByUniqueID(this.existingQuizTemplateID).then(
                     (theQuizTemplate) => {
 
+                        this.clog.info(`QTCrud.component: _initializeExistingQuizTemplate: Update UI with info based on quiz template:`, theQuizTemplate);
+                        
                         this.InputQuizTemplateTitle = theQuizTemplate.Title;
                         this.InputDescription = theQuizTemplate.Description;
-                        this.InputKnowledgeDomains = theQuizTemplate.KnowledgeDomains;
+                        //this.InputKnowledgeDomains = theQuizTemplate.KnowledgeDomains;
+                        this.InputKnowledgeDomains = theQuizTemplate.KnowledgeDomains.map((aKD) => { return aKD ? aKD.Title : "" });;
+                        
                         this.AllSelectedFacts = [].concat(theQuizTemplate.Facts) || [];
                         this.AllViewFacts = [].concat(theQuizTemplate.Facts) || [];
-
+                        
                         this.AllUnselectedFacts = this.AllFacts.reduce((allUnselectedFacts, currentAllFact) => {
 
                             if (F.entityIsInCollection(this.AllSelectedFacts, currentAllFact.UniqueID)) {
@@ -221,6 +202,31 @@ import * as QTM from "./QT.Model";
 
         }
 
+        public isKDSelected(theDomainTitle: string) {
+
+            if (!this.InputKnowledgeDomains) {
+                return false;
+            }
+            if (this.InputKnowledgeDomains && this.InputKnowledgeDomains.length < 1) {
+                return false;
+            }
+
+            return this.InputKnowledgeDomains.filter((aKD) => { return aKD === theDomainTitle; }).length > 0;
+
+        }
+
+        
+        public toggleKD(kdTitleToToggle: string) {
+
+            if (this.isKDSelected(kdTitleToToggle)) {
+                this.InputKnowledgeDomains = this.InputKnowledgeDomains.filter((aKD) => { return aKD !== kdTitleToToggle });
+            }
+            else {
+                this.InputKnowledgeDomains = this.InputKnowledgeDomains.concat(kdTitleToToggle);
+            }
+
+        }
+
         public handleRemoveFactFromTemplate(theFact: FM.IFactItem) {
             //theFact._isDeleted = true;
         }
@@ -245,14 +251,15 @@ import * as QTM from "./QT.Model";
             this.router.navigate(["/Admin/QuizTemplates"]);
         }
 
-        public handleSave() {
+        public async handleSave() {
 
             const QuizTemplateToSave: QTM.QuizTemplateItem = new QTM.QuizTemplateItem();
             const confirmationMsg: string = this.isNewQuizTemplateItem ? "Saved a new QuizTemplate!" : "Updated an existing QuizTemplate!";
 
             QuizTemplateToSave.Title = this.InputQuizTemplateTitle;
             QuizTemplateToSave.Description = this.InputDescription;
-            QuizTemplateToSave.KnowledgeDomains = this.AllKnowledgeDomains;
+            // QuizTemplateToSave.KnowledgeDomains = this.AllKnowledgeDomains;
+            QuizTemplateToSave.KnowledgeDomains = await this.kdService.getKnowledgeDomainsByTitles(this.InputKnowledgeDomains);
             QuizTemplateToSave.Facts = [].concat(this.AllSelectedFacts);
             //QuizTemplateToSave.Facts = this.AllFacts.filter((anItem) => { return true; /*!anItem._isDeleted; */});
 
