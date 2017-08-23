@@ -1,6 +1,7 @@
 ﻿import { AbstractItem, IAbstractItem } from "../../Framework/Data Structures/AbstractItem";
 import * as KDM from "../../Admin/KnowledgeDomains/KDItem";
 import * as FM from "../../Admin/Facts/FactModel";
+import { IEntityMetadata } from '../../Framework/Data Structures/IEntityMetadata';
 
 export interface IQuizInstanceItem extends IAbstractItem {
     Title: string;
@@ -15,6 +16,8 @@ export class QuizInstanceItem extends AbstractItem implements IQuizInstanceItem 
     public Description: string;
     public KnowledgeDomains: KDM.KnowledgeDomainItem[];
     public Facts: FM.IFactItem[];
+
+    public get EntityMetadata(): () => IEntityMetadata { return QuizInstanceItem.GetEntityMetadata }
 
     constructor() {
         super();
@@ -39,4 +42,14 @@ export class QuizInstanceItem extends AbstractItem implements IQuizInstanceItem 
 
     }
 
+    static GetEntityMetadata(): IEntityMetadata {
+
+            return {
+                ConsoleLoggingLabel: "QuizInstanceItem",
+                MongoCollectionName: "QuizInstanceItems",
+                PropertyNames: AbstractItem.EntityProperties.concat(["Title","Description","KnowledgeDomains","Facts"]),
+                ApiRouteBaseName: 'QuizInstance',
+                EmptyItem: () => { return new QuizInstanceItem(); }
+            }
+        }
 }
