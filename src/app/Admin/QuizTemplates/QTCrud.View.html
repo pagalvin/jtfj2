@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <h1>Quiz Template Crud View</h1>
+    <h1 *ngIf="viewDebug">Quiz Template Crud View</h1>
 
     <div class="row">
         <div class="col-12">
@@ -26,6 +26,18 @@
             <small id="QuizTemplateTitleHelp" class="form-text text-muted">
                 Enter the description of this QuizTemplate. The description is shown to end users describing the quiz.
             </small>
+        </div>
+
+        <div class="form-group">
+            <label>Knowledge Domains</label><br/>
+            <span *ngFor="let aKD of AllKnowledgeDomains">
+                <input id="kd_{{aKD.InternalID}}" type="checkbox" value="{{aKD.UniqueID}}" 
+                (click)="toggleKD(aKD.Title)" 
+                [checked]="isKDSelected(aKD.Title)" />
+                <label for="kd_{{aKD.InternalID}}">
+                    {{aKD.Title}}
+                </label>
+            </span>
         </div>
 
         <!-- Knowledge Domains -->
@@ -83,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" *ngIf="viewDebug">
                 <div class="col-12">
                     <pre>{{AllViewFacts | json}}</pre>
                 </div>
