@@ -44,7 +44,7 @@
                 {{aFact.Description}}
             </div>
             <div class="col-1">
-                ID: <span *ngIf="aFact && aFact.UniqueID">{{aFact.UniqueID}}</span>
+                <span *ngIf="aFact && aFact.UniqueID &&viewDebug">ID: {{aFact.UniqueID}}</span>
                 <a *ngIf="aFact && aFact.UniqueID" [routerLink]="['/Admin/Fact', aFact.UniqueID]">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </a>
