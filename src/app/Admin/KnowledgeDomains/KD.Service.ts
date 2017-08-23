@@ -6,8 +6,8 @@ import { ConsoleLog } from '../../Framework/Logging/ConsoleLogService';
 import { Injectable } from '@angular/core';
 import { Util } from '../../Framework/Util/Util';
 import { AbstractAngularService } from '../../Framework/Data Structures/AbstractAngularService'
-import { MongoKDService } from '../../Framework/Data Services/MongoKD.service';
-
+import { MongoService } from '../../Framework/Data Services/MongoData.service';
+ 
 "use strict";
 
 @Injectable()
@@ -20,7 +20,7 @@ export class KnowledgeDomainsService extends AbstractAngularService {
 
     constructor(private _recordIDsService: RecordIDsService,
         private clog: ConsoleLog,
-        private mongoKDService: MongoKDService
+        private mongoKDService: MongoService
     ) {
 
         super();
@@ -103,9 +103,11 @@ export class KnowledgeDomainsService extends AbstractAngularService {
         
         return new Promise<boolean>( async (resolve, rejectO) => {
 
+            const itemToDelete = await this.getKnowledgeDomainItemByID(theDomainID);
+
             this.clog.info(`KD.Service: deleteKowledgeDomainByID: Entering. Awaiting mongoKDService.deleteItem().`);
 
-            const deleteResult = await this.mongoKDService.deleteItem(theDomainID);
+            const deleteResult = await this.mongoKDService.deleteItemG<KnowledgeDomainItem>(itemToDelete);
 
             this.clog.info(`KD.Service: deleteKowledgeDomainByID: Item successfully deleted, updating all KDs.`);
             
@@ -124,24 +126,24 @@ export class KnowledgeDomainsService extends AbstractAngularService {
 
             this.clog.debug(`KnowledgeDomainService: saveKnowledgeDomain: No ID assigned, will create a new record on the mongo side.`);
 
-            const savedDomain = await this.mongoKDService.createItem(kdToSave);
+            const savedDomain2 = await this.mongoKDService.createItemG<KnowledgeDomainItem>(kdToSave);
 
-            this._allKnowledgeDomains = Functionals.getMergedCollection(this._allKnowledgeDomains, savedDomain);
+            // const savedDomain = await this.mongoKDService.createItem(kdToSave);
 
-            this.clog.info(`KnowledgeDomainService: saveKnowledgeDomain: saved domain:`, {sd: savedDomain, all: this._allKnowledgeDomains});
+            this._allKnowledgeDomains = Functionals.getMergedCollection(this._allKnowledgeDomains, savedDomain2);
+
+            this.clog.info(`KnowledgeDomainService: saveKnowledgeDomain: saved domain:`, {sd: savedDomain2, all: this._allKnowledgeDomains});
         }
         else {
             this.clog.debug(`KnowledgeDomainService: saveKnowledgeDomain: Already has an ID, no need to get a new one.`);
 
-            const updatedDomain = await this.mongoKDService.updateItem(kdToSave);
+            const updatedDomain = await this.mongoKDService.updateItemG(kdToSave);
             this.clog.info(`KnowledgeDomainService: saveKnowledgeDomain: updated domain:`, updatedDomain)
 
             this._allKnowledgeDomains = Functionals.getMergedCollection(this._allKnowledgeDomains, kdToSave);
         }
 
     }
-
-
 
     public async saveKnowledgeDomain_localstorage(theDomain: KnowledgeDomainItem) {
 
@@ -174,7 +176,8 @@ export class KnowledgeDomainsService extends AbstractAngularService {
 
         return new Promise<KnowledgeDomainItem[]> (async (resolve, reject) => {
             
-            const allMongoDomains = await this.mongoKDService.getItems();
+            // const allMongoDomains = await this.mongoKDService.getItems();
+            const allMongoDomains = await this.mongoKDService.getAllItemsG<KnowledgeDomainItem>(KnowledgeDomainItem.GetEntityMetadata());
             
             this._allKnowledgeDomains = allMongoDomains || [];
 
