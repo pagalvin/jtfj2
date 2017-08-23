@@ -19,6 +19,7 @@ import { ViewDebugToggleService } from "../../Framework/view-debug-toggle-compon
 
 @Component({
     templateUrl: './FactCrud.View.html',
+    styles: ['./FactCrud.css'],
     selector: 'jtfj-fact-crud-component'
 })
 export class FactCrudComponent implements OnInit, OnDestroy {
@@ -30,6 +31,10 @@ export class FactCrudComponent implements OnInit, OnDestroy {
 
     private isNewFactItem: boolean = false;
     private existingFactID: string = null;
+
+    public isAnyQuestionEditing: boolean = false;
+    public isAnyCorrectAnswerEditing: boolean = false;
+    public isAnyIncorrectAnswerEditing: boolean = false;
 
     public get IsNewItem(): boolean { return this.isNewFactItem; }
 
@@ -158,6 +163,7 @@ export class FactCrudComponent implements OnInit, OnDestroy {
             _isDeleted: false
         };
 
+        this.isAnyQuestionEditing = true;
         this.AllQuestions = this.AllQuestions.concat(newQuestion);
     }
 
@@ -168,6 +174,7 @@ export class FactCrudComponent implements OnInit, OnDestroy {
             _isDeleted: false
         };
 
+        this.isAnyCorrectAnswerEditing = true;
         this.AllCorrectAnswers = this.AllCorrectAnswers.concat(newCorrectAnswer);
     }
 
@@ -179,6 +186,7 @@ export class FactCrudComponent implements OnInit, OnDestroy {
             _isDeleted: false
         };
 
+        this.isAnyIncorrectAnswerEditing = true;
         this.AllWrongAnswers = this.AllWrongAnswers.concat(newWrongAnswer);
     }
 
